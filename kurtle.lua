@@ -164,17 +164,37 @@ actions = {
 	['_'] = turtle.placeDown,
 	['^'] = turtle.placeUp
 }
+
+move_actions = {
+	['f'] = true,
+	['b'] = true,
+	['u'] = true,
+	['d'] = true,
+	['l'] = true,
+	['r'] = true,
+}
+
+
 function patt ( pattern )
 	local matches = nil
   local match = ""
+  local reps = nil
+  local cmd = ""
   matches = string.gmatch(pattern, "%d?%D")
   
   for match in matches do
     if string.len(match) == 1 then
       actions[match]()
     else
-      for i=1, string.sub(match, 1, 1) do
-        actions[string.sub(match,2,2)]()
+      --do action multiple times
+      reps = tonumber string.sub(match, 1, 1)
+      cmd = string.sub(match,2,2)
+      if move_actions[cmd] then
+        actions[cmd](reps)
+      else
+        for i=1, reps do
+          actions[cmd]()
+        end
       end
     end
   end
