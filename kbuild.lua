@@ -72,32 +72,30 @@ function place ()
   if turtle.detectDown () then
     turtle.digDown ()
   end
-  if not turtle.placeDown () then
-    return false
-  end
-  return true
+  
+  return turtle.placeDown ()
+  
 end
 
 -- Try to place a block using slot 1 as a referrence
 function refPlace ()
-  if not turtle.detectDown () then
-    if turtle.getItemCount (slot) > 1 then
-      turtle.select (slot)
-      return turtle.placeDown ()
-    else
-      --:find more materials
-      while not findRefMaterials () do
-        print ("Need more materials ....")
-        sleep(5)
-      end
-      
-      return turtle.placeDown()  
-        
-    end --:if ref > 1
-  else
-    --:block below turtle, seppuku!?
-    return nil
+  if turtle.detectDown () then
+    turtle.digDown ()
   end
+  
+  if turtle.getItemCount (slot) > 1 then
+    turtle.select (slot)
+    return turtle.placeDown ()
+  else
+    --:find more materials
+    while not findRefMaterials () do
+      print ("Need more materials ....")
+      sleep (5)
+    end
+    
+    return turtle.placeDown()  
+      
+  end --:if refItemCount > 1
 end
 
 -- vim: ft=lua ts=2 sts=2 sw=2

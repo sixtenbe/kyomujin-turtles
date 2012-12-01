@@ -1,4 +1,4 @@
---0.5.1
+--0.5.2
 --
 -- k47's Turtle Library
 -- modified by Kyomujin
@@ -123,6 +123,12 @@ function down (n)
 	return _move(n, turtle.down, turtle.digDown, turtle.attackDown, turtle.suckDown)
 end
 
+function sink ()
+  while turtle.down () do
+    --sinking
+  end
+end
+
 -- Place wrappers
 function place ()
 	_place(turtle.place)
@@ -137,6 +143,7 @@ function placeUp ()
 end
 
 -- Pattern Interperater
+-- prepend a command with a digit to run n times
 --[[ kurtle patterns:
 move
  f = forward

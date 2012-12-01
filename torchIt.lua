@@ -1,10 +1,12 @@
---0.1.0
+--0.1.1
 --
 --  torchIt
 --  by Kyomujin
 --
 -- Places torches on a flat floor in a 5x5 pattern
 -- lays torches to its right and forward
+-- 
+-- Needs kurtle 0.5.2 or later
 -- 
 
 --
@@ -33,7 +35,7 @@ if # argv ~= 2 then
   return 2
 else
   length = tonumber (argv[1])
-  width = tonumber (argv[1])
+  width = tonumber (argv[2])
   
   length = math.floor(length / space)
   width = math.floor(width / space)
@@ -45,9 +47,7 @@ end
 
 --Main--
 --:goto one block above ground
-while turtle.down () do
-  --sinking
-end
+kurtle.sink ()
 
 kurtle.up ()
 
