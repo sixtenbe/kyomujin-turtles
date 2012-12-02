@@ -30,10 +30,13 @@ end
 
 local function retrievePastes(pastes, folder)
   for key, paste in pairs(pastes) do
+    print(string.format("retrieving paste: %s", key))
     if not pastebinGet(paste, string.format("%s/%s", folder, key)) then
       return false
     end
   end
+  
+  return true
 end
 
 --Declare pastebins to use--
@@ -46,13 +49,13 @@ local pastesProg = {
   ["house"] = "6dC0qzJv",
   ["mixing"] = "S07P4AgA",
   ["pyramid"] = "KE499ChC",
-  ["pyramidInv"] = "wmUeQCx",
+  ["pyramidInv"] = "swmUeQCx",
   ["torchIt"] = "Z6AZb52p",
   ["xcav"] = "iUAATh1q"
 }
 
 local pastesDisk = {
-  ["startup"] = "",
+  ["startup"] = "29N1jFft",
   ["startupTurtle"] = "JyQi6kT6"
 }
 
@@ -68,10 +71,11 @@ end
 --:check if files/folders already exist
 if fs.exists("disk/lib") or fs.exists("disk/prog") or fs.exists("disk/startup") then
   print("Existing files/folders found. Overwrite? y/n")
-  if not string.lower(read()) == "y" then
+  if not (string.lower(read()) == "y") then
     print("aborting on user request")
     return false
   end
+  print("Overwriting")
   --[[
   --:Clear out files and folders
   fs.delete("disk/startup")
