@@ -1,4 +1,4 @@
--- 1.0.0
+-- 1.0.1
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -43,7 +43,8 @@ end
 
 local pastesLib = {
   ['kurtle'] = "qY9ipkuZ", 
-  ['kbuild'] = "JGTM1u7y" 
+  ['kbuild'] = "JGTM1u7y",
+  ['builder'] = "dj0rgEKG" 
 }
 local pastesProg = {
   ["house"] = "6dC0qzJv",

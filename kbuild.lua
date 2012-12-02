@@ -39,6 +39,7 @@ function findMaterials ()
 end
 
 function findRefMaterials ()
+  --fix this shitty code i.e. use turtle.transferTo
   for s=2,16 do
   turtle.select (s)
     if turtle.getItemCount (s) > 0 and turtle.compareTo (slot) then

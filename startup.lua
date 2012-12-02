@@ -1,4 +1,4 @@
--- 1.0.0
+-- 1.0.1
 --
 -- Startup for disk drive
 -- Will copy library and programs to connected turtles
@@ -31,6 +31,10 @@ local dirList = {
 
 
 --Main--
+--:check that startup is being run on a turtle
+if turtle==nil then
+  return nil
+end
 --:check if previous files exits
 if fs.exists("lib") or fs.exists("prog") or fs.exists("startup") then
   print("Existing files/folders found. Overwrite? y/n")
@@ -49,8 +53,6 @@ fs.makeDir("lib")
 fs.makeDir("prog")
 
 --:get lib and programs
-
-
 for srcDir, destDir in pairs(dirList) do
   fileList = fs.list(srcDir)
   for _, file in ipairs(fileList) do
