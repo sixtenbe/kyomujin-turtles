@@ -8,63 +8,63 @@
 
 -- Meta Functions --
 local function _turn(n, hand)
-	if n==nil then n=1 end
-	for i=1,n do
-		hand()
-	end
-	return n%4
+  if n==nil then n=1 end
+  for i=1,n do
+    hand()
+  end
+  return n%4
 end
 
 local function _move(n, move, dig, attack, suck)
-	if n==nil then n=1 end
-	while not fillTo(n) do
-		print ("Waiting for more fuel...")
-		sleep (5)
-	end
-	for i=1,n do
-		while not move() do
-			if not dig() then
-				attack()
-				suck()
-			end
-			fillTo (1)
-			sleep(0.5)
-		end
-	end
-	return n
+  if n==nil then n=1 end
+  while not fillTo(n) do
+    print ("Waiting for more fuel...")
+    sleep (5)
+  end
+  for i=1,n do
+    while not move() do
+      if not dig() then
+        attack()
+        suck()
+      end
+      fillTo (1)
+      sleep(0.5)
+    end
+  end
+  return n
 end
 
 local function _place(p)
-	for i=1,16 do
-		turtle.select(i)
-		if p() then
-			return i
-		end
-	end
+  for i=1,16 do
+    turtle.select(i)
+    if p() then
+      return i
+    end
+  end
 end
 
 -- Private functions --
 local function _dig_back()
-	_turn(2, turtle.turnRight)
-	local success = turtle.dig()
-	_turn(2, turtle.turnLeft)
-	return success
+  _turn(2, turtle.turnRight)
+  local success = turtle.dig()
+  _turn(2, turtle.turnLeft)
+  return success
 end
 
 local function _attack_back()
-	_turn(2, turtle.turnRight)
-	return turtle.attack()
+  _turn(2, turtle.turnRight)
+  return turtle.attack()
 end
 
 local function _suck_back()
-	turtle.suck()
-	_turn(2, turtle.turnLeft)
+  turtle.suck()
+  _turn(2, turtle.turnLeft)
 end
 
 -- Fuel handling
 function hasFuel(x)
- local	fuel = turtle.getFuelLevel()
-	if fuel >= x then
+ local  fuel = turtle.getFuelLevel()
+  if fuel >= x then
    return true
  else
    return false
@@ -72,55 +72,55 @@ function hasFuel(x)
 end
 
 function fillTo(x)
-	if hasFuel(x) then
-		return true
-	else
-		for f=1,16 do
-			turtle.select(f)
-			if turtle.refuel(1) then
-				print("Found more fuel.")
-			end
-			if hasFuel(x) then
-				turtle.select(1)
-				return true
-			end
-		end
-	end
-	return false
+  if hasFuel(x) then
+    return true
+  else
+    for f=1,16 do
+      turtle.select(f)
+      if turtle.refuel(1) then
+        print("Found more fuel.")
+      end
+      if hasFuel(x) then
+        turtle.select(1)
+        return true
+      end
+    end
+  end
+  return false
 end
 
 -- Directional Wrappers --
 function right (n)
-	return _turn(n, turtle.turnRight)
+  return _turn(n, turtle.turnRight)
 end
 
 function left (n)
-	return _turn(n, turtle.turnLeft)
+  return _turn(n, turtle.turnLeft)
 end
 
 function uturn(w)
-	if w % 2 == 1 then
-		right()
-	else
-		left()
-	end
+  if w % 2 == 1 then
+    right()
+  else
+    left()
+  end
 end
 
 -- Movement wrappers
 function fwd (n)
-	return _move(n, turtle.forward, turtle.dig, turtle.attack, turtle.suck)
+  return _move(n, turtle.forward, turtle.dig, turtle.attack, turtle.suck)
 end
 
 function back (n)
-	return _move(n, turtle.back, _dig_back(), _attack_back, _suck_back)
+  return _move(n, turtle.back, _dig_back(), _attack_back, _suck_back)
 end
 
 function up (n)
-	return _move(n, turtle.up, turtle.digUp, turtle.attackUp, turtle.suckUp)
+  return _move(n, turtle.up, turtle.digUp, turtle.attackUp, turtle.suckUp)
 end
 
 function down (n)
-	return _move(n, turtle.down, turtle.digDown, turtle.attackDown, turtle.suckDown)
+  return _move(n, turtle.down, turtle.digDown, turtle.attackDown, turtle.suckDown)
 end
 
 function sink ()
@@ -131,15 +131,15 @@ end
 
 -- Place wrappers
 function place ()
-	_place(turtle.place)
+  _place(turtle.place)
 end
 
 function placeDown ()
-	_place(turtle.placeDown)
+  _place(turtle.placeDown)
 end
 
 function placeUp ()
-	_place(turtle.placeUp)
+  _place(turtle.placeUp)
 end
 
 -- Pattern Interperater
@@ -158,49 +158,49 @@ dig
  U = dig up
 ]]--
 actions = {
-	['f'] = fwd,
-	['b'] = back,
-	['u'] = up,
-	['d'] = down,
-	['l'] = left,
-	['r'] = right,
-	['F'] = turtle.dig,
-	['D'] = turtle.digDown,
-	['U'] = turtle.digUp,
-	['-'] = turtle.place,
-	['_'] = turtle.placeDown,
-	['^'] = turtle.placeUp
+  ['f'] = fwd,
+  ['b'] = back,
+  ['u'] = up,
+  ['d'] = down,
+  ['l'] = left,
+  ['r'] = right,
+  ['F'] = turtle.dig,
+  ['D'] = turtle.digDown,
+  ['U'] = turtle.digUp,
+  ['-'] = turtle.place,
+  ['_'] = turtle.placeDown,
+  ['^'] = turtle.placeUp
 }
 
 move_actions = {
-	['f'] = true,
-	['b'] = true,
-	['u'] = true,
-	['d'] = true,
-	['l'] = true,
-	['r'] = true,
+  ['f'] = true,
+  ['b'] = true,
+  ['u'] = true,
+  ['d'] = true,
+  ['l'] = true,
+  ['r'] = true,
 }
 
 
 function patt ( pattern )
-	local matches = nil
+  local matches = nil
   local match = ""
   local reps = nil
   local cmd = ""
-  matches = string.gmatch(pattern, "%d?%D")
+  matches = string.gmatch (pattern, "%d?%D")
   
   for match in matches do
-    if string.len(match) == 1 then
-      actions[match]()
+    if string.len (match) == 1 then
+      actions[match] ()
     else
       --do action multiple times
-      reps = tonumber string.sub(match, 1, 1)
-      cmd = string.sub(match,2,2)
+      reps = tonumber (string.sub (match, 1, 1))
+      cmd = string.sub (match,2,2)
       if move_actions[cmd] then
-        actions[cmd](reps)
+        actions[cmd] (reps)
       else
         for i=1, reps do
-          actions[cmd]()
+          actions[cmd] ()
         end
       end
     end

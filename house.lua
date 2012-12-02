@@ -1,4 +1,4 @@
---0.1.0
+--0.1.1
 --
 --  house
 --  by Kyomujin
@@ -25,17 +25,19 @@ end
 local length = 0
 local width = 0
 local height = 0
-local height_wall = 0
+local heightWall = 0
+local lengthWall = 0
+local blocksNeeded = 0
 
 
 --Arguments--
 local argv = {...}
-if # argv ~= 2 then
+if # argv < 2 then
   print("Usage: builder <length> <width> <height>")
   return 2
 else
   length = tonumber(argv[1])
-  width = tonumber argv[2])
+  width = tonumber (argv[2])
   if # argv == 3 then
     height = tonumber(argv[3])
   else
@@ -49,6 +51,13 @@ if length < 3 or width < 3 or height < 3 then
   return 2
 end
 
+--:calculate needed blocks
+heightWall = height - 2
+blocksNeeded = length * width * 2 
+blocksNeeded = blocksNeeded + 2 * (heightWall * (length -1))
+blocksNeeded = blocksNeeded + 2 * (heightWall * (width -1))
+print(string.format("will use %d blocks", blocksNeeded))
+
 
 
 function wall(_length, _height)
@@ -60,8 +69,8 @@ function wall(_length, _height)
       kbuild.refPlace()
     end
     
-    --:if finishing platform break
-    if w==_width then break end
+    --:if finishing wall break
+    if h==_height then break end
     --:goto next level of wall
     kurtle.patt("u2r")
     kbuild.refPlace()
@@ -82,6 +91,7 @@ function platform(_length, _width)
     kurtle.uturn(w)
     kurtle.fwd()
     kurtle.uturn(w)
+    kbuild.refPlace()
   end
 end
 
@@ -91,7 +101,7 @@ function returnPlatform(_length, _width)
     kurtle.fwd(_length-1)
   end
   kurtle.right()
-  kurlte.fwd(_width-1)
+  kurtle.fwd(_width-1)
 end
 
 
@@ -100,23 +110,30 @@ platform(length, width)
 
 --:Return to start of build
 returnPlatform(length, width)
-kurtle.right()
 
 --:start building walls
-height_wall = height - 2
+kurtle.patt("ur")
 for w=1, 4 do
-  wall(length-1, height_wall)
+  if w % 2 == 1 then
+    lengthWall = length-1
+  else
+    lengthWall = width-1
+  end
+  wall(lengthWall, heightWall)
   
   --:goto start of next wall or roof
-  if height_wall % 2 == 0 then
+  if heightWall % 2 == 0 then
     kurtle.right(2)
-    kurtle.fwd(length-2)
+    kurtle.fwd(lengthWall-1)
   end
   kurtle.patt("fr")
-  kurtle.down(height_wall)
+  --:don't go down if last wall
+  if w==4 then break end
+  kurtle.down(heightWall-1)
 end
 
 --:build roof
+kurtle.up()
 platform(length, width)
 
 --:return to start

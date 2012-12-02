@@ -79,8 +79,13 @@ end
 
 -- Try to place a block using slot 1 as a referrence
 function refPlace ()
+  turtle.select (slot)
   if turtle.detectDown () then
-    turtle.digDown ()
+    if turtle.compareDown () then
+      return true
+    else
+      turtle.digDown ()
+    end
   end
   
   if turtle.getItemCount (slot) > 1 then
