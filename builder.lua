@@ -8,15 +8,20 @@
 
 
 --Includes--
+--[[
+these libs needs to be loaded by the
+startup on the turtle before builder
+is loaded
 
 local libs = {"kurtle", "kbuild"}
 local lib = ""
-for index, lib in  ipairs(libs) do
+for _, lib in  ipairs(libs) do
   path=shell.resolveProgram(lib)
-    if path==nil or not os.loadAPI(path) then
-      print(string.format("Can't load library: %s", lib))
-    end
+  if path==nil or not os.loadAPI(path) then
+    print(string.format("Can't load library: %s", lib))
+  end
 end
+]]--
 
 
 --building functions--
