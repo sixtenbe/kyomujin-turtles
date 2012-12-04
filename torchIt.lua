@@ -48,20 +48,23 @@ end
 --Main--
 --:goto one block above ground
 kurtle.sink ()
-
-kurtle.up ()
+turtle.select(1)
+--if block isn't a torch go up 1
+if not turtle.compareDown() then
+  kurtle.up ()
+end
 
 --:in position start placing torches
-for w=1,length do
-  print(string.format ("Laying lane %d of %d", w, length))
+for w=1,width do
+  print(string.format ("Laying lane %d of %d", w, width))
   kbuild.refPlace ()
   
-  for l=1,width-1 do
+  for l=1,length-1 do
     kurtle.fwd (space)
     kbuild.refPlace ()
   end --length
   --:check if we should go to next lane
-  if w==length then break end
+  if w==width then break end
   --:goto next lane of torch laying
   kurtle.uturn(w)
   kurtle.fwd(space)
