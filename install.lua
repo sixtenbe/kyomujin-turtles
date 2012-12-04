@@ -14,9 +14,9 @@ end
 
 
 local function pastebinGet(bin, file)
-  local h = http.get(string.format("http://www.pastebin.com/raw.php?i=%s", bin))
+  local h = http.get("http://www.pastebin.com/raw.php?i="..bin)
   if h==nil then
-    print(string.format("Failed to get pastebin: %s", bin))
+    print("Failed to get pastebin: "..bin))
     return false
   end
   
@@ -31,7 +31,7 @@ end
 local function retrievePastes(pastes, folder)
   for key, paste in pairs(pastes) do
     print("retrieving paste: "..key)
-    if not pastebinGet(paste, folder.."/"..key) then
+    if not pastebinGet(paste, fs.combine(folder, key)) then
       return false
     end
   end
@@ -87,7 +87,7 @@ if not fs.exists(dirRoot) then
 end
 
 --:check if files/folders already exist
-if fs.exists(dirLib) or fs.exists(dirProg) or fs.exists(dirRoot.."startup") then
+if fs.exists(dirLib) or fs.exists(dirProg) or fs.exists(fs.combine(dirRoot, "startup")) then
   print("Existing files/folders found. Overwrite? y/n")
   if not (string.lower(read()) == "y") then
     print("aborting on user request")

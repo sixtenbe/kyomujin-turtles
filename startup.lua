@@ -58,10 +58,10 @@ fs.makeDir("prog")
 for srcDir, destDir in pairs(dirList) do
   fileList = fs.list(srcDir)
   for _, file in ipairs(fileList) do
-    if not fs.isDir(file) then
-      print(string.format("copying %s", file))
-      src = string.format("%s/%s", srcDir, file)
-      dest = string.format("%s/%s", destDir, file)
+    src = fs.combine(srcDir, file)
+    if not fs.isDir(src) then
+      print("copying "..file))
+      dest = fs.combine(destDir, file)
       
       if not copy(src, dest) then return false end
     end
