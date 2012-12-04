@@ -1,4 +1,4 @@
--- 1.0.1
+-- 1.1.0
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -30,8 +30,8 @@ end
 
 local function retrievePastes(pastes, folder)
   for key, paste in pairs(pastes) do
-    print(string.format("retrieving paste: %s", key))
-    if not pastebinGet(paste, string.format("%s/%s", folder, key)) then
+    print("retrieving paste: "..key)
+    if not pastebinGet(paste, folder.."/"..key) then
       return false
     end
   end
@@ -60,39 +60,58 @@ local pastesDisk = {
   ["startupTurtle"] = "JyQi6kT6"
 }
 
+local dirRoot = "disk"
+local dirLib = "disk/lib"
+local dirProg = "disk/prog"
+local diskExists = true
 
 
 --Main--
---:check that script is being run from a disk
-if not fs.exists("disk") then
-  print("A disk drive with a disk must be connected before running")
-  return false
+--:check if disk is available
+if not fs.exists(dirRoot) then
+  --if not turtle abort
+  if turtle==nil then
+    print("A disk drive with a disk must be connected before running")
+    return false
+  end
+  
+  print("Should library be installed to turtle y/n")
+  if not string.lower(read()) == "y" then
+    print("aborting on user request")
+    return false
+  end
+  diskExists = false
+  dirRoot = ""
+  dirLib = "lib"
+  dirProg = "prog"
 end
 
 --:check if files/folders already exist
-if fs.exists("disk/lib") or fs.exists("disk/prog") or fs.exists("disk/startup") then
+if fs.exists(dirLib) or fs.exists(dirProg) or fs.exists(dirRoot.."startup") then
   print("Existing files/folders found. Overwrite? y/n")
   if not (string.lower(read()) == "y") then
     print("aborting on user request")
     return false
   end
-  print("Overwriting")
-  --[[
-  --:Clear out files and folders
-  fs.delete("disk/startup")
-  fs.delete("disk/prog")
-  fs.delete("disk/prog")
-  ]]--
+  print("Files will be overwritten")
 end
 
 --:Make lib and program folders
-fs.makeDir("disk/lib")
-fs.makeDir("disk/prog")
+fs.makeDir(dirLib)
+fs.makeDir(dirProg)
 
 --:get lib and programs
-if not retrievePastes(pastesLib, "disk/lib") then return false end
-if not retrievePastes(pastesProg, "disk/prog") then return false end
-if not retrievePastes(pastesDisk, "disk") then return false end
+if not retrievePastes(pastesLib, dirLib) then return false end
+if not retrievePastes(pastesProg, dirProg) then return false end
+if not retrievePastes(pastesDisk, dirRoot) then return false end
+
+--:for turtles replace startup with startupTurtle
+if not diskExists then
+  fs.delete("startup")
+  fs.move("startupTurtle", "startup")
+  print("library installed to turtle")
+  return true
+end
 
 print("done, to initialize a turtle connect it to this disk drive")
 

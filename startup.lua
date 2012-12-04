@@ -1,10 +1,10 @@
--- 1.0.1
+-- 1.0.2
 --
 -- Startup for disk drive
 -- Will copy library and programs to connected turtles
 --
 
---:copy wrapper that deletes the target file if neeeded
+--:copy wrapper that deletes the target file if needed
 local function copy(source, target)
   if fs.exists(target) and not fs.isDir(target) then
     fs.delete(target)
@@ -47,6 +47,8 @@ end
 --:get turtle startup
 print("copying startup")
 if not copy("disk/startupTurtle", "startup") then return false end
+print("copying install, for possible use")
+if not copy("disk/install", "install") then return false end
 
 --:make dirs for files
 fs.makeDir("lib")
