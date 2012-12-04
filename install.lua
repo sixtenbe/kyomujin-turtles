@@ -1,4 +1,4 @@
--- 1.1.0
+-- 1.1.1
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -16,7 +16,7 @@ end
 local function pastebinGet(bin, file)
   local h = http.get("http://www.pastebin.com/raw.php?i="..bin)
   if h==nil then
-    print("Failed to get pastebin: "..bin))
+    print("Failed to get pastebin: "..bin)
     return false
   end
   

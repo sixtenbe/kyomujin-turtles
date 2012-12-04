@@ -1,4 +1,4 @@
--- 1.0.2
+-- 1.0.3
 --
 -- Startup for disk drive
 -- Will copy library and programs to connected turtles
@@ -60,7 +60,7 @@ for srcDir, destDir in pairs(dirList) do
   for _, file in ipairs(fileList) do
     src = fs.combine(srcDir, file)
     if not fs.isDir(src) then
-      print("copying "..file))
+      print("copying "..file)
       dest = fs.combine(destDir, file)
       
       if not copy(src, dest) then return false end
