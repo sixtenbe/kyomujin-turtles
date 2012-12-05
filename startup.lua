@@ -11,7 +11,7 @@ local function copy(source, target)
   end
   
   if not fs.exists(source) then
-    print(string.format("%s is missing, fix it", source))
+    print(source.." is missing, fix it")
     return false
   end
   

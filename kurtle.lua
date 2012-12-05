@@ -1,4 +1,4 @@
---0.5.3
+--0.5.4
 --
 -- k47's Turtle Library
 -- modified by Kyomujin
@@ -40,6 +40,13 @@ local function _place(p)
     if p() then
       return i
     end
+  end
+end
+
+local function _dig(detect, dig)
+  while detect () do
+    dig ()
+    sleep(0.5)
   end
 end
 
@@ -142,6 +149,20 @@ function placeUp ()
   _place(turtle.placeUp)
 end
 
+-- Dig wrappers
+function dig ()
+  _dig(turtle.detect, turtle.dig)
+end
+
+function digDown ()
+  _dig(turtle.detectDown, turtle.digDown)
+end
+
+function digUp ()
+  _dig(turtle.detectUp, turtle.digUp)
+end
+
+
 -- Pattern Interperater
 -- prepend a command with a number to run n times
 -- e.g: "24f2r107uf" will go 24 fwd 2 right 107 up 1 fwd
@@ -165,9 +186,9 @@ actions = {
   ['d'] = down,
   ['l'] = left,
   ['r'] = right,
-  ['F'] = turtle.dig,
-  ['D'] = turtle.digDown,
-  ['U'] = turtle.digUp,
+  ['F'] = dig,
+  ['D'] = digDown,
+  ['U'] = digUp,
   ['-'] = turtle.place,
   ['_'] = turtle.placeDown,
   ['^'] = turtle.placeUp

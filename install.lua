@@ -1,4 +1,4 @@
--- 1.1.1
+-- 1.1.3
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -6,11 +6,19 @@
 
 
 --Some worker functions
---[[
-local function pastebinGet(bin, file)
-  shell.run("pastebin", "get", bin, file)
+local function copy(source, target)
+  if fs.exists(target) and not fs.isDir(target) then
+    fs.delete(target)
+  end
+  
+  if not fs.exists(source) then
+    print( source.." is missing, fix it")
+    return false
+  end
+  
+  fs.copy(source, target)
+  return true
 end
-]]--
 
 
 local function pastebinGet(bin, file)
@@ -52,6 +60,7 @@ local pastesProg = {
   ["pyramid"] = "KE499ChC",
   ["pyramidInv"] = "swmUeQCx",
   ["torchIt"] = "Z6AZb52p",
+  ["tunnelTorch"] = "j3bDAgQ3",
   ["xcav"] = "iUAATh1q"
 }
 
@@ -83,7 +92,12 @@ if not fs.exists(dirRoot) then
   diskExists = false
   dirRoot = ""
   dirLib = "lib"
-  dirProg = "prog"
+  dirProg = "prog"  
+else
+  --:check that install is running of disk or copy self to disk
+  if shell.dir() ~= dirRoot then
+    copy("install", fs.combine(dirRoot, "install"))
+  end
 end
 
 --:check if files/folders already exist

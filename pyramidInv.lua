@@ -12,6 +12,7 @@ for index, lib in  ipairs(libs) do
   path=shell.resolveProgram(lib)
     if path==nil or not os.loadAPI(path) then
       print(string.format("Can't load library: %s", lib))
+      return false
     end
 end
 

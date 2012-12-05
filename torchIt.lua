@@ -10,8 +10,6 @@
 -- Needs kurtle 0.5.2 or later
 -- 
 
---
-
 --Includes--
 
 local libs = {"kurtle", "kbuild"}
@@ -20,6 +18,7 @@ for index, lib in  ipairs(libs) do
   path=shell.resolveProgram(lib)
     if path==nil or not os.loadAPI(path) then
       print("Can't load library: "..lib)
+      return false
     end
 end
 
@@ -114,7 +113,7 @@ for w=1,width do
     kurtle.fwd (space)
     kbuild.refPlace ()
   end --length
-  --:check if we should go to next lane
+  --:break if placed last lane
   if w==width then break end
   --:goto next lane of torch laying
   kurtle.uturn(w)
