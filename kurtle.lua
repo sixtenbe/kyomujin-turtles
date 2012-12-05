@@ -1,4 +1,4 @@
---0.5.2
+--0.5.3
 --
 -- k47's Turtle Library
 -- modified by Kyomujin
@@ -143,7 +143,8 @@ function placeUp ()
 end
 
 -- Pattern Interperater
--- prepend a command with a digit to run n times
+-- prepend a command with a number to run n times
+-- e.g: "24f2r107uf" will go 24 fwd 2 right 107 up 1 fwd
 --[[ kurtle patterns:
 move
  f = forward
@@ -187,15 +188,15 @@ function patt ( pattern )
   local match = ""
   local reps = nil
   local cmd = ""
-  matches = string.gmatch (pattern, "%d?%D")
+  matches = string.gmatch (pattern, "%d*%D")
   
   for match in matches do
     if string.len (match) == 1 then
       actions[match] ()
     else
       --do action multiple times
-      reps = tonumber (string.sub (match, 1, 1))
-      cmd = string.sub (match,2,2)
+      reps = tonumber (string.sub (match, 1, -2))
+      cmd = string.sub (match,-1,-1)
       if move_actions[cmd] then
         actions[cmd] (reps)
       else
