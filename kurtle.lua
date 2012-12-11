@@ -3,8 +3,9 @@
 -- k47's Turtle Library
 -- modified by Kyomujin
 --
--- SEE MY README for instructions on installing my libraries
--- @ pastebin.com/u/ck47
+-- For originals see: pastebin.com/u/ck47
+-- See readme for installing modified libraries
+-- @ pastebin.com/u/kyomujin
 
 -- Meta Functions --
 local function _turn(n, hand)

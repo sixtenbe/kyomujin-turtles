@@ -1,4 +1,4 @@
---0.1.0
+--0.1.1
 --
 -- Mixing
 -- by Kyomujin
@@ -9,11 +9,11 @@
 --Must be an empty bucket in the first slot
 --Mixer must be above the turtle
 --Water is in front of the turtle
---Chest below the turtle, which sorts items as needed
+--Chest is below the turtle, which sorts items as needed
 --
---To interupt program place a block in front of the turtle
 
 local buckets = 1
+local suckCount = 0
 
 function bucketFill(n)
   if n==nil then n=1 end
@@ -27,17 +27,19 @@ end
 
 --only run if no block in front
 while not turtle.detect() do
-  print("fill buckets")
+  print("get items")
   --get items from invent
+  suckCount = 0
+  buckets = 0
   turtle.select(1)
   while turtle.suckUp() do
-    --pass
+    suckCount = suckCount + 1
   end
   
   
   --check if there any buckets in slots 2-16
   
-  for i=2, 16, 1 do
+  for i=2, 2+suckCount, 1 do
     turtle.select(i)
     if turtle.compareTo(1) then
       buckets = turtle.getItemCount(i)
@@ -55,12 +57,15 @@ while not turtle.detect() do
   buckets = turtle.getItemCount(1)
   if buckets > 1 then
     bucketFill(buckets - 1)
+    print("fill buckets")
   end
   
   --empty inventory
-  for j=2, 16 do
-    turtle.select(j)
-    turtle.dropDown()
+  if buckets > 1 or suckCount > 0 then
+    for j=2, 16 do
+      turtle.select(j)
+      turtle.dropDown()
+    end
   end
   turtle.select(1)
   

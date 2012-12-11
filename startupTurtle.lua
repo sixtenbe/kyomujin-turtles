@@ -4,6 +4,8 @@
 --
 path = shell.path()
 path = path..":/disk/lib/:/lib/"
+--add programs to path to run from anywhere
+path = path..":/prog/"
 shell.setPath (path)
 
 

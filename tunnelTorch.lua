@@ -50,7 +50,10 @@ local function dropOff()
   for i=2, 16 do
     turtle.select(i)
     if not turtle.compareTo(1) then
-      turtle.dropDown()
+      while not turtle.dropDown() do
+        print("Chest is full")
+        sleep(5)
+      end
     end
   end
   turtle.select(1)

@@ -1,4 +1,4 @@
---1.1.0
+--1.1.1
 --
 --  torchIt
 --  by Kyomujin
@@ -23,8 +23,8 @@ for index, lib in  ipairs(libs) do
 end
 
 --Declares--
-local length = 0
-local width = 0
+local length = -1
+local width = -1
 local space = 5 --:spacing between torches
 local detectL = false
 local detectW = false
@@ -32,13 +32,16 @@ local detectW = false
 
 --Arguments--
 local argv = {...}
-if # argv ~= 2 then
+if # argv ~= 2 and not (# argv==0) then
   print("Usage: torchIt <length> <width>")
-  return 2
+  return false
 end
 --:store commands
-length = tonumber (argv[1])
-width = tonumber (argv[2])
+if # argv==2 then
+  length = tonumber (argv[1])
+  width = tonumber (argv[2])
+end
+--:If no arg then default -1 autodetect will be used
 
 --Autodect dimension func--
 local function detectDimension()
