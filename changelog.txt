@@ -1,0 +1,45 @@
+REV:18
++   merge local mercurial repo with git
+
+REV:17
++   readme.md added
+REV:16
+?   pull git repo to prepare merge
+
+REV:15
+-   Changed print statement in mixing.lua
+-   Reduced slot iteration in mixing
++   tunnelToch will wait for slots to become available in the chest
++   kbuild refPlace now accepts a slot number as argument
++   kbuild uses a better item transfer function for refPlace i.e. doesn't drop items
++   Added a readme
++   Added a diagional wall to builder.lua
++   Made the functions in builder.lua return true
++   torchIt can now be run without arguments, will autodetect all dimensions.
++   Added program folder to path init in startupTurtle
+?   kbuild is now version 0.0.5
+?   builder is now version 1.0.0
+?   torchIt is now version 1.1.1
+?   mixing is now version 0.1.1
+
+REV:14
+!   Made the import actually break on fail
++   Added tunnelTorch
++   Added dig wrappers to kurtle, which can handle falling blocks
++   Added tunnelTorch to install.lua
+?   install is now version 1.1.3
+?   kurtle is now version 0.5.4
+
+REV:13
++   kurtle.patt now accepts an arbitrary number
++   torchIt now autodetects length and or width when given -1
+?   torchIt is now version 1.1.0
+
+
+REV:12
+!   Fixed paranthesis in install.lua and kurtle.lua
+?   Changed version number of kurtle.lua and install.lua
+
+REV:11
+!   startup.lua now correctly separates files from folders
+-   Use fs.combine for paths instead of concat or string.format
