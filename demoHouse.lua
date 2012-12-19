@@ -1,16 +1,16 @@
---1.0.0
+--1.0.1
 --
---  house
+--  demoHouse
 --  by Kyomujin
 --
--- Builds floor, roof and walls
+-- Tears down a house
 -- Default height is 5
--- Floor will be placed below the turtle's level
+-- 
 -- 
 
 --Includes--
 
-local libs = {"kurtle", "kbuild", "builder"}
+local libs = {"kurtle", "builder"}
 local lib = ""
 for index, lib in  ipairs(libs) do
   path=shell.resolveProgram(lib)
@@ -32,7 +32,7 @@ local blocksNeeded = 0
 --Arguments--
 local argv = {...}
 if # argv < 2 then
-  print("Usage: house <length> <width> <height>")
+  print("Usage: demoHouse <length> <width> <height>")
   return false
 else
   length = tonumber(argv[1])
@@ -50,42 +50,36 @@ if length < 3 or width < 3 or height < 3 then
   return false
 end
 
---:calculate needed blocks
 heightWall = height - 2
-blocksNeeded = length * width * 2 
-blocksNeeded = blocksNeeded + 2 * (heightWall * (length -1))
-blocksNeeded = blocksNeeded + 2 * (heightWall * (width -1))
-print(string.format("will use %d blocks", blocksNeeded))
 
 
 --Main--
-builder.platform(length, width)
-
---:Return to start of build
+builder.demoPlatform(length, width)
 builder.gotoStartPlatform(length, width)
-
---:start building walls
-kurtle.up()
+--:take down walls
+kurtle.up(2)
 for w=1, 4 do
   if w % 2 == 1 then
     lengthWall = length-1
   else
     lengthWall = width-1
   end
-  builder.wall(lengthWall, heightWall)
+  builder.demoWall(lengthWall, heightWall)
   
   --:goto start of next wall or roof
-  builder.gotoEndWall(lengthWall, heightWall)
+  builder.gotoEndWall(lengthWall, heightWall, true)
   kurtle.patt("fr")
   --:don't go down if last wall
   if w==4 then break end
-  kurtle.down(heightWall-1)
+  kurtle.down(heightWall-3)
 end
-
---:build roof
-kurtle.up()
-builder.platform(length, width)
-
+--:take down roof
+if heightWall < 3 then
+  kurtle.up(heightWall - 1)
+else
+  kurtle.up(2)
+end
+builder.demoPlatform(length, width)
 --:return to start
 builder.gotoStartPlatform(length, width)
 kurtle.patt("2lf")

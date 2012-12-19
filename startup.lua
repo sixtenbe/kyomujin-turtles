@@ -1,4 +1,4 @@
--- 1.0.3
+-- 1.0.4
 --
 -- Startup for disk drive
 -- Will copy library and programs to connected turtles
@@ -19,6 +19,14 @@ local function copy(source, target)
   return true
 end
 
+
+local function YesNoQuerry()
+  event, key = os.pullEvent("key")
+  --:keycode 21 = "y"
+  return key == 21
+end
+
+
 --Declares--
 local fileList=nil
 local dest=""
@@ -38,7 +46,7 @@ end
 --:check if previous files exits
 if fs.exists("lib") or fs.exists("prog") or fs.exists("startup") then
   print("Existing files/folders found. Overwrite? y/n")
-  if not string.lower(read()) == "y" then
+  if not YesNoQuerry then
     print("aborting on user request")
     return false
   end

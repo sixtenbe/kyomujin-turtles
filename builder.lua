@@ -1,4 +1,4 @@
--- 1.0.0
+-- 1.0.1
 --
 -- Kyomujin Building function Library
 -- Library for building standard structures
@@ -124,30 +124,152 @@ function platform(length, width)
   return true
 end
 
+--Demolish structures--
+function demoPlatform(length, width)
+  turtle.digDown()
+  for w=1, width do
+    for l=1, length-1 do
+      kurtle.fwd()
+      if turtle.detectDown() then
+        turtle.digDown()
+      end
+    end
+    
+    --:if last row break
+    if w==width then break end
+    kurtle.uturn(w)
+    kurtle.fwd()
+    kurtle.uturn(w)
+    turtle.digDown()
+  end
+  
+  return true
+end
 
+
+function demoWall(length, height)
+  --:demolish wall 3 layers a time
+  local remainder = height % 3
+  height = math.floor(height / 3)
+  if height == 0 then
+    remainder = 0
+    height = 1
+  end
+  
+  kurtle.digUp()
+  turtle.digDown()
+  
+  for h=1, height do
+    for l=1, length-1 do
+      kurtle.fwd()
+      kurtle.digUp()
+      turtle.digDown()
+    end
+    
+    --:if finishing wall break
+    if h==height then break end
+    --:goto next level of wall
+    kurtle.patt("3u2r")
+    kurtle.digUp()
+  end
+  
+  --:remove remainder
+  if remainder > 0 then
+    kurtle.up(remainder)
+    kurtle.right(2)
+    kurtle.digUp()
+    for l=1, length-1 do
+      kurtle.fwd()
+      kurtle.digUp()
+      --:no block is below so don't digDown
+    end
+  end
+  
+  return true
+end
+
+function demoWallDiag(length, height, direction)
+  --:demolish a diagional wall
+  --:should diagional be fwd to the right or the left
+  dir1 = getDir(direction)
+  if dir1 == false then return false end
+  dir2 = getDirINV(dir1)
+  
+  --:demolish wall 3 layers a time
+  local remainder = height % 3
+  height = math.floor(height / 3)
+  if height == 0 then
+    remainder = 0
+    height = 1
+  end
+  
+  kurtle.digUp()
+  turtle.digDown()
+  for h=1, height do
+    for l=1, length-1 do
+      --:will go either fwd, right, fwd, left
+      --:or fwd, left, fwd, right
+      kurtle.patt(string.format("f%sf%s", dir1, dir2))
+      kurtle.digUp()
+      turtle.digDown()
+    end
+    
+    --:if finishing wall break
+    if h==height then break end
+    --:goto next level of wall
+    kurtle.patt("3u2r")
+    kurtle.digUp()
+  end
+  
+  --:remove remainder
+  if remainder > 0 then
+    kurtle.up(remainder)
+    kurtle.right(2)
+    kurtle.digUp()
+    for l=1, length-1 do
+      kurtle.patt(string.format("f%sf%s", dir1, dir2))
+      kurtle.digUp()
+      --:no block is below so don't digDown
+    end
+  end
+end
 
 --Goto start of a build--
 --:will not move in the vertical plane
+--:will face same direction as when build function started
 function gotoStartPlatform(length, width)
+  if height == 0 then height = 1 end
   if width % 2 == 1 then
     kurtle.right(2)
     kurtle.fwd(length-1)
   end
   kurtle.right()
   kurtle.fwd(width-1)
+  kurtle.right()
 end
 
 
-function gotoStartWall(length, height)
+function gotoStartWall(length, height, wasDemo)
+  if wasDemo then
+    --:okey goto start of DemoWall instead of build
+    height = math.ceil(height / 3)
+  end
+  if height == 0 then height = 1 end
   if height % 2 == 1 then
     kurtle.right(2)
     kurtle.fwd(length-1)
   end
+  kurtle.right(2)
   
   return true
 end
 
-function gotoStartWallDiag(length, height, direction)
+function gotoStartWallDiag(length, height, direction, wasDemo)
+  if wasDemo then
+    --:okey goto start of DemoWallDiag instead of build
+    height = math.ceil(height / 3)
+  end
+  if height == 0 then height = 1 end
   --Should this walk diag or is this OK
   if height % 2 == 1 then
     dir = getDir(direction)
@@ -165,6 +287,7 @@ end
 --Goto end of a build i.e far right--
 --:will not move in the vertical plane
 function gotoEndPlatform(length, width)
+  if height == 0 then height = 1 end
   if width % 2 == 0 then
     kurtle.right(2)
     kurtle.fwd(length-1)
@@ -174,7 +297,12 @@ function gotoEndPlatform(length, width)
 end
 
 
-function gotoEndWall(length, height)
+function gotoEndWall(length, height, wasDemo)
+  if wasDemo then
+    --:okey goto end of DemoWall instead of build
+    height = math.ceil(height / 3)
+  end
+  if height == 0 then height = 1 end
   if height % 2 == 0 then
     kurtle.right(2)
     kurtle.fwd(length-1)
@@ -183,7 +311,12 @@ function gotoEndWall(length, height)
   return true
 end
 
-function gotoEndWallDiag(length, height, direction)
+function gotoEndWallDiag(length, height, direction, wasDemo)
+  if wasDemo then
+    --:okey goto end of DemoWallDiag instead of build
+    height = math.ceil(height / 3)
+  end
+  if height == 0 then height = 1 end
   --Should this walk diag or is this OK
   if height % 2 == 0 then
     dir = getDir(direction)

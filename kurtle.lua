@@ -1,4 +1,4 @@
---0.5.4
+-- 0.5.5
 --
 -- k47's Turtle Library
 -- modified by Kyomujin
@@ -18,10 +18,7 @@ end
 
 local function _move(n, move, dig, attack, suck)
   if n==nil then n=1 end
-  while not fillTo(n) do
-    print ("Waiting for more fuel...")
-    sleep (5)
-  end
+  forceFillTo (n)
   for i=1,n do
     while not move() do
       if not dig() then
@@ -79,6 +76,15 @@ function hasFuel(x)
  end
 end
 
+function forceFillTo(x)
+  if x ==nil then x = 1 end
+  while not fillTo(x) do
+    print ("Waiting for more fuel...")
+    sleep (5)
+  end
+end
+
+
 function fillTo(x)
   if hasFuel(x) then
     return true
@@ -87,6 +93,9 @@ function fillTo(x)
       turtle.select(f)
       if turtle.refuel(1) then
         print("Found more fuel.")
+        while not hasFuel(x) do
+          if not turtle.refuel(1) then break end
+        end
       end
       if hasFuel(x) then
         turtle.select(1)

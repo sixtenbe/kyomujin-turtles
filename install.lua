@@ -1,4 +1,4 @@
--- 1.1.3
+-- 1.1.4
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -47,6 +47,12 @@ local function retrievePastes(pastes, folder)
   return true
 end
 
+local function YesNoQuerry()
+  event, key = os.pullEvent("key")
+  --:keycode 21 = "y"
+  return key == 21
+end
+
 --Declare pastebins to use--
 
 local pastesLib = {
@@ -55,6 +61,8 @@ local pastesLib = {
   ['builder'] = "dj0rgEKG" 
 }
 local pastesProg = {
+  ["act"] = "Q8Us0AG3",
+  ["demoHouse"] = "35iXA1sB",
   ["house"] = "6dC0qzJv",
   ["mixing"] = "S07P4AgA",
   ["pyramid"] = "KE499ChC",
@@ -85,7 +93,7 @@ if not fs.exists(dirRoot) then
   end
   
   print("Should library be installed to turtle y/n")
-  if not string.lower(read()) == "y" then
+  if not YesNoQuerry() then
     print("aborting on user request")
     return false
   end
@@ -103,7 +111,7 @@ end
 --:check if files/folders already exist
 if fs.exists(dirLib) or fs.exists(dirProg) or fs.exists(fs.combine(dirRoot, "startup")) then
   print("Existing files/folders found. Overwrite? y/n")
-  if not (string.lower(read()) == "y") then
+  if not YesNoQuerry() then
     print("aborting on user request")
     return false
   end

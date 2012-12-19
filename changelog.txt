@@ -1,3 +1,23 @@
+REV:19
+!   Made dropoff in tunnelTorch handle empty slots correctly
+-   Changed return statements in house
+-   Modified house to work with changed gotoStartPlatform function
+-   install.lua and startup.lua uses os.pullEvent instead of read()
+-   Changed the gotoStart/End functions to allways face the turtle as when the build function started
++   Added forceFillTo in kurtle which will wait until turtle can fill to specified level
++   Added demoHouse to get a more efficent way of demolishing houses
++   Added demolish functions to builder.lua to easily destroy buildings
++   Added act.lua to enable use of the kurtle.patt function without entering lua
++   Added new programs to install.lua
++   tunnelTorch can now use an enderchest to dump inventory
++   tunnelTorch will now demand sufficent fuel before running
+?   builder is now version 1.0.1
+?   house is now version 1.0.0
+?   install is now version 1.1.4
+?   startup is now version 1.0.4
+?   tunnelTorch is now version 1.1.0
+?   kurtle is now version 0.5.5
+
 REV:18
 +   merge local mercurial repo with git
 
