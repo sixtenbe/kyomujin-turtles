@@ -1,4 +1,4 @@
---0.9.0
+-- 1.0.0
 --
 --  move
 --  by Kyomujin
@@ -53,7 +53,7 @@ movePattern = argv[1]
 if string.lower(movePattern) == "help" then
   print("format of key table:")
   print("key: command")
-  for key, command in commandKey do
+  for key, command in pairs(commandKey) do
     print(key..": "..command)
     row = row + 1
     if row % 7 == 0 then

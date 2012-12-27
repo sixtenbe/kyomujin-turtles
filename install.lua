@@ -1,4 +1,4 @@
--- 1.1.4
+-- 1.1.5
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -132,6 +132,8 @@ if not diskExists then
   fs.delete("startup")
   fs.move("startupTurtle", "startup")
   print("library installed to turtle")
+  --:run the startup turtle script to get it going
+  shell.run("/startup")
   return true
 end
 

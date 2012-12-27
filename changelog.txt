@@ -1,3 +1,11 @@
+REV:20
+!   Fixed the help function of act.lua
++   Install now runs the startup script after installing to a turtle
+-   Startup nor runs startupTurtle instead of mimicing its behavior
+?   act is now version 1.0.0
+?   install is now version 1.1.5
+?   startup is now version 1.0.5
+
 REV:19
 !   Made dropoff in tunnelTorch handle empty slots correctly
 -   Changed return statements in house

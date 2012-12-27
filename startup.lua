@@ -1,4 +1,4 @@
--- 1.0.4
+-- 1.0.5
 --
 -- Startup for disk drive
 -- Will copy library and programs to connected turtles
@@ -78,9 +78,8 @@ for srcDir, destDir in pairs(dirList) do
 end
 
 
---:end by adding lib folders to path
-path = shell.path()
-path = path..":/disk/lib/:/lib/"
-shell.setPath (path)
+--:end by running the startupturtle script
+shell.run("/startup")
+
 
 print("finished")
