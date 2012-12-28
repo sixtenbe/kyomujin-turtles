@@ -1,3 +1,10 @@
+REV:21
+-   kurtle.digDown doesn't sleep anymore
+-   act.lua uses os.pullEvent instead of read()
++   Added an octagonal platform to builder.lua
+?   kurtle is now version 0.5.6
+?   builder is now version 1.0.2
+
 REV:20
 !   Fixed the help function of act.lua
 +   Install now runs the startup script after installing to a turtle

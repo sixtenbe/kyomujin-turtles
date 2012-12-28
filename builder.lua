@@ -1,4 +1,4 @@
--- 1.0.1
+-- 1.0.2
 --
 -- Kyomujin Building function Library
 -- Library for building standard structures
@@ -54,6 +54,60 @@ local function getDirINV(direction)
     return false
   end
   return direct
+end
+
+--Functions for handling the movement of some build/demo functions
+local function movePlatformOct(side, center, action)
+  local diam = (side-1) * 3 + 1
+  local length = side
+  local grow = 2
+  local static = 0
+  local shrink = 0-2
+  local change = grow
+  
+  if center==nil then center=true end
+  
+  --:goto start and place/break first block
+  kurtle.fwd(side-1)
+  if center then
+    kurtle.left()
+    kurtle.fwd(side + math.floor((side/2)) - 1)
+    kurtle.right()
+  end
+  
+  
+  action()
+  for d=1, diam do
+    for l=1, length-1 do
+      kurtle.fwd()
+      action()
+    end
+    --:detect growth/shrinkage
+    if (change==grow) and (length == diam) then
+      change = static
+    elseif (change==static) and (d==(side*2-1)) then
+      change = shrink
+    end
+    
+    length = length + change
+    
+    
+    --:if finishing platform break
+    if d==diam then break end
+    --:if statements to handle growth/shrinkage of platform
+    if change==grow then
+      kurtle.fwd()
+    end
+    kurtle.uturn(d)
+    kurtle.fwd()
+    kurtle.uturn(d)
+    if change==shrink then
+      kurtle.fwd()
+    end
+    action()
+  end
+  
+  return true
 end
 
 
@@ -124,15 +178,20 @@ function platform(length, width)
   return true
 end
 
+
+function platformOct(side, center)
+  return movePlatformOct(side, center, kbuild.refPlace)
+end
+
+
+
 --Demolish structures--
 function demoPlatform(length, width)
   turtle.digDown()
   for w=1, width do
     for l=1, length-1 do
       kurtle.fwd()
-      if turtle.detectDown() then
-        turtle.digDown()
-      end
+      turtle.digDown()
     end
     
     --:if last row break
@@ -144,6 +203,10 @@ function demoPlatform(length, width)
   end
   
   return true
+end
+
+function demoPlatformOct(side, center)
+  return movePlatformOct(side, center, turtle.digDown())
 end
 
 

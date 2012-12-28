@@ -58,7 +58,7 @@ if string.lower(movePattern) == "help" then
     row = row + 1
     if row % 7 == 0 then
       print("press enter to continue")
-      read()
+      os.pullEvent("key")
     end
   end
   print("Each key can be prepended with a number to run the command n times")

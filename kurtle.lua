@@ -1,4 +1,4 @@
--- 0.5.5
+-- 0.5.6
 --
 -- k47's Turtle Library
 -- modified by Kyomujin
@@ -44,7 +44,9 @@ end
 local function _dig(detect, dig)
   while detect () do
     dig ()
-    sleep(0.5)
+    if not (dig == turtle.digDown) then
+      sleep(0.5)
+    end
   end
 end
 
