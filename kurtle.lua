@@ -1,4 +1,4 @@
--- 0.5.6
+-- 0.6.0
 --
 -- k47's Turtle Library
 -- modified by Kyomujin
@@ -22,7 +22,8 @@ local function _move(n, move, dig, attack, suck)
   for i=1,n do
     while not move() do
       if not dig() then
-        attack()
+        --attack fail==bedrock
+        if not attack() then return i-1 end
         suck()
       end
       fillTo (1)
@@ -68,7 +69,7 @@ local function _suck_back()
   _turn(2, turtle.turnLeft)
 end
 
--- Fuel handling
+-- Fuel handling --
 function hasFuel(x)
  local  fuel = turtle.getFuelLevel()
   if fuel >= x then
@@ -80,8 +81,12 @@ end
 
 function forceFillTo(x)
   if x ==nil then x = 1 end
+  local printIt = true
   while not fillTo(x) do
-    print ("Waiting for more fuel...")
+    if printIt then
+      print ("Waiting for more fuel...")
+      printIt = false
+    end
     sleep (5)
   end
 end
@@ -239,6 +244,72 @@ function patt ( pattern )
       end
     end
   end
+end
+
+
+function dumpToChest (direction, ...)
+  --:extra arguments are used to specify slots to keep
+  --:items identical to specified slots are keept as well
+  local dropIt = true
+  local slots = {}
+  local detect = nil
+  local drop = nil
+  --get direction to excpect chest
+  if string.lower(direction)=="f" then
+    detect = turtle.detect
+    drop = turtle.drop
+  elseif string.lower(direction)=="u" then
+    detect = turtle.detectUp
+    drop = turtle.dropUp
+  else
+    detect = turtle.detectDown
+    drop = turtle.dropDown
+  end
+  
+  --get forbidden slots
+  for _, slot in ipairs(arg) do
+    slots[slot] = true
+  end
+  
+  local printIt = true
+  while not detect() do
+    if printIt then
+      print("place a chest under the turtle to deposit items")
+      printIt = false
+    end
+    sleep(5)
+  end
+  
+  
+  for i=1,16 do
+    --skip all forbidden slots
+    if not slots[i] then
+      turtle.select(i)
+      if (turtle.getItemCount(i) > 0) then
+        --Check if selected item corresponds to a forbidden item
+        dropIt = true
+        for _, slot in ipairs(arg) do
+          if turtle.compareTo(slot) then
+            dropIt = false
+            break
+          end
+        end
+        
+        if dropIt then
+          printIt=true
+          while not drop() do
+            if printIt then
+              print("Chest is full")
+              printIt = false
+            end
+            sleep(5)
+          end
+        end
+        
+      end --getItemCount
+    end --slots
+  end
+  
 end
 
 -- vim: ft=lua sw=2 ts=2 sts=2

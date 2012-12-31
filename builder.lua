@@ -1,4 +1,4 @@
--- 1.0.2
+-- 1.0.3
 --
 -- Kyomujin Building function Library
 -- Library for building standard structures
@@ -26,34 +26,40 @@ end
 ]]--
   
 --private function--
-local function getDir(direction)
+function getDir(direction)
   local dirList = {
     ["right"] = "r",
     ["left"] = "l",
+    ["up"] = "u",
+    ["down"] = "d",
     
     ["r"] = "r",
-    ["l"] = "l"
+    ["l"] = "l",
+    ["u"] = "u",
+    ["d"] = "d"
   }
   
-  direct = dirList[string.lower(direction)]
-  if direct==nil then
+  direction = dirList[string.lower(direction)]
+  if direction==nil then
     print("invalid direction")
     return false
   end
-  return direct
+  return direction
 end
 
-local function getDirINV(direction)
+function getDirINV(direction)
   local dirListINV = {
     ["r"] = "l",
-    ["l"] = "r"
+    ["l"] = "r",
+    ["u"] = "d",
+    ["d"] = "u"
   }
-  direct = dirListINV[string.lower(direction)]
-  if direct==nil then
+  direction = dirListINV[string.lower(direction)]
+  if direction==nil then
     print("invalid direction")
     return false
   end
-  return direct
+  return direction
 end
 
 --Functions for handling the movement of some build/demo functions
@@ -301,7 +307,6 @@ end
 --:will not move in the vertical plane
 --:will face same direction as when build function started
 function gotoStartPlatform(length, width)
-  if height == 0 then height = 1 end
   if width % 2 == 1 then
     kurtle.right(2)
     kurtle.fwd(length-1)

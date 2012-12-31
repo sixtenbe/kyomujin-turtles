@@ -1,3 +1,12 @@
+REV:22
+-   getDir function in builder is now public
++   getDir function in builder handles up/down
++   xcav now empties to a chest behind start position or to an enderchest in slot 16
++   added dumpToChest to kurtle.lua
+?   builder is now version 1.0.3
+?   kurtle is now version 0.6.0
+?   xcav is now version 0.3.0
+
 REV:21
 -   kurtle.digDown doesn't sleep anymore
 -   act.lua uses os.pullEvent instead of read()
