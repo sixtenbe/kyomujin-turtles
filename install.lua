@@ -1,4 +1,4 @@
--- 1.1.5
+-- 1.1.6
 --
 -- Install
 -- Will retrieve library and programs to disk
@@ -63,10 +63,12 @@ local pastesLib = {
 local pastesProg = {
   ["act"] = "Q8Us0AG3",
   ["demoHouse"] = "35iXA1sB",
+  ["fillerMark"] = "RtkdLfTK",
   ["house"] = "6dC0qzJv",
   ["mixing"] = "S07P4AgA",
   ["pyramid"] = "KE499ChC",
   ["pyramidInv"] = "swmUeQCx",
+  ["stair"] = "iLbWEKt1",
   ["torchIt"] = "Z6AZb52p",
   ["tunnelTorch"] = "j3bDAgQ3",
   ["xcav"] = "iUAATh1q"

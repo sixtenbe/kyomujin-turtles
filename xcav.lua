@@ -1,4 +1,4 @@
--- 0.3.0
+-- 0.3.1
 --
 -- Xcavate
 -- by k47
@@ -157,7 +157,6 @@ local function bore()
     end --width
     --last level test
     if d==depth then break end
-    kurtle.left(2)
     down = descend(3)
     if down ~=3 then
       --abort abort bedrock found
@@ -170,7 +169,20 @@ local function bore()
       offset = (offset+1)%2
     end
     
-    fuelCheck(1,w+1,d+1)
+    if d%2==1 then
+      w = width
+    else
+      w = 1
+    end
+    if w%2==1 then
+      l = 1
+    else
+      l = length
+    end
+    
+    
+    fuelCheck(l, w, d+1)
+    kurtle.left(2)
   end
 end
 

@@ -1,3 +1,12 @@
+REV:23
+!   xcav could only run one layer
++   added stairs.lua
++   added fillerMark.lua
++   added new programs to install
+?   install is now version 1.1.6
+?   xcav is now version 0.3.1
+
+
 REV:22
 -   getDir function in builder is now public
 +   getDir function in builder handles up/down
